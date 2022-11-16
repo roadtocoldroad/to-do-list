@@ -1,11 +1,19 @@
-from app import db
+import sqlite3
 
 
-class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200))
-    complete = db.Column(db.Boolean)
-    url = db.Column(db.String(200))
+con = sqlite3.connect('database.db')
+cur = con.cursor()
 
-    def __repr__(self):
-        return self.text
+cur.execute("DROP TABLE IF EXISTS todo")
+
+sql =   '''
+    create table "todo" (
+    "todo_id" INTEGER PRIMARY KEY AUTOINCREMENT,
+     "title" text, 
+     "completed" bool default false, 
+     "url" text)
+    '''
+
+cur.execute(sql)
+con.commit()
+con.close()
