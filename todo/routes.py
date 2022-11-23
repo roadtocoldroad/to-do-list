@@ -15,13 +15,13 @@ def read():
 
 @bp.route('/',methods = ['POST'])
 def post():
-        title = request.form['title']
-        url = request.url
-        con = sql.connect('todo/database.db')
-        cur = con.cursor()
-        cur.execute("insert into todo(title,url) values (?,?)", (title, url))
-        con.commit()
-        return redirect(url_for("main.post"))
+    db = get_db()
+    db.execute(
+        "insert into todo(TITLE,URL) values (?,?)",
+        (request.form['title'], request.url)
+    )
+    db.commit()
+    return redirect(url_for("main.post"))
 
 
 # @bp.route('/<string:todo_id>')
