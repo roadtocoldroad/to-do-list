@@ -4,7 +4,6 @@ from flask import current_app
 from flask import g
 
 
-
 def get_db():
     if "db" not in g:
         g.db = sql.connect(current_app.config['DATABASE'])

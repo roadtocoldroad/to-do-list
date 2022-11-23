@@ -6,4 +6,6 @@ body{
 .button{
     color:green;
 }
-.mark{font-size: 10px;}
+.mark{
+    font-size: 10px;
+}

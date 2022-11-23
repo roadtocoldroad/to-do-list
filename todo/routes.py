@@ -1,7 +1,6 @@
 from flask import  request, redirect, url_for
 from flask.blueprints import Blueprint
 from flask import render_template
-import sqlite3 as sql
 from todo.db import get_db
 
 bp = Blueprint('main', __name__, url_prefix='/')
