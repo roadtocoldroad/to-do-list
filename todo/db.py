@@ -1,5 +1,4 @@
 import click
-from flask import render_template
 import sqlite3 as sql
 from flask import current_app
 from flask import g
@@ -33,13 +32,3 @@ def init_db_command():
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
-
-
-def read_data(SQL,id):
-    con = sql.connect('database.db')
-    con.row_factory = sql.Row
-    cur = con.cursor()
-    cur.execute(SQL,id)
-    data = cur.fetchall()
-    return render_template("index.html", datas=data)
-
