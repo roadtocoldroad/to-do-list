@@ -29,10 +29,4 @@ def read_data(SQL,id):
     data = cur.fetchall()
     return render_template("index.html", datas= data)
 
-if __name__ == '__main__':
-    app = Flask(__name__)
-    app.secret_key = 'super secret key'
-    app.config['SESSION_TYPE'] = 'filesystem'
-    app.register_blueprint(bp)
-    app.run()
 
