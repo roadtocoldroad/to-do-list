@@ -23,7 +23,7 @@
 
  <h1>Todo List</h1>
     <div>Add a new todo item:
-        <form action="{{ url_for('main.index') }}" method="POST">
+        <form action="{{ url_for('main.post') }}" method="POST">
                 "title" : <input type="text" name="title">
             <input type="submit" value="Add Todo" class="button">
         </form>

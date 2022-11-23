@@ -1,5 +1,5 @@
 from flask import Flask
-from todo.app import bp
+from todo.routes import bp
 
 def create_app():
     app = Flask(__name__)
