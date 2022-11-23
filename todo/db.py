@@ -1,3 +1,4 @@
+import click
 from flask import render_template
 import sqlite3 as sql
 from flask import current_app
@@ -22,6 +23,13 @@ def init_db():
 
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
+
+@click.command('init-db')
+def init_db_command():
+    """Clear the existing data and create new tables."""
+    init_db()
+    click.echo('Initialized the database.')
+
 
 def read_data(SQL,id):
     con = sql.connect('database.db')
