@@ -7,11 +7,11 @@ cur = con.cursor()
 cur.execute("DROP TABLE IF EXISTS todo")
 
 sql =   '''
-    create table "todo" (
+CREATE TABLE "todo" (
     "todo_id" INTEGER PRIMARY KEY AUTOINCREMENT,
-     "title" text, 
-     "completed" bool default false, 
-     "url" text)
+    "title" text,
+    "completed" bool default false,
+    "url" text)
     '''
 
 cur.execute(sql)
