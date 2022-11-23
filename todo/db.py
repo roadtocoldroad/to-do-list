@@ -1,5 +1,15 @@
 from flask import render_template
 import sqlite3 as sql
+from flask import current_app
+from flask import g
+
+
+
+def get_db():
+    if "db" not in g:
+        g.db = sql.connect(current_app.config['DATABASE'])
+        g.db.row_factory = sql.Row
+    return g.db
 
 
 def read_data(SQL,id):
@@ -9,3 +19,4 @@ def read_data(SQL,id):
     cur.execute(SQL,id)
     data = cur.fetchall()
     return render_template("index.html", datas=data)
+
