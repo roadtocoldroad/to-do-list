@@ -1,9 +1,10 @@
-from flask import Flask,render_template,request,redirect,url_for,jsonify
+from flask import render_template, request, redirect, url_for, Flask
+from flask.blueprints import Blueprint
 import sqlite3 as sql
 
-app = Flask(__name__)
+bp = Blueprint('main', __name__, url_prefix='/')
 
-@app.route('/',methods = ['POST','GET'])
+@bp.route('/',methods = ['POST','GET'])
 def index():
     if request.method == 'POST':
         title = request.form['title']
@@ -12,11 +13,11 @@ def index():
         cur = con.cursor()
         cur.execute("insert into todo(TITLE,URL) values (?,?)", (title, url))
         con.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     return read_data("select * from todo",'')
 
 
-@app.route('/<string:todo_id>')
+@bp.route('/<string:todo_id>')
 def read_by_id(todo_id):
    return read_data("select * from todo where todo_id=?", todo_id)
 
@@ -29,7 +30,9 @@ def read_data(SQL,id):
     return render_template("index.html", datas= data)
 
 if __name__ == '__main__':
- app.secret_key = 'super secret key'
- app.config['SESSION_TYPE'] = 'filesystem'
- app.run()
+    app = Flask(__name__)
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.register_blueprint(bp)
+    app.run()
 
