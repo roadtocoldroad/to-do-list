@@ -24,8 +24,6 @@ def read():
     return json.dumps(todo_list,ensure_ascii=False)
 
 
-
-
 @bp.route('/',methods = ['POST'])
 def post():
     db = get_db()
@@ -39,8 +37,19 @@ def post():
 
 @bp.route('/<string:todo_id>')
 def find_todo_by_id(todo_id):
+    found_list = []
+
     db = get_db()
     fetch_data = db.execute(
         "select * from todo where todo_id = ?", (todo_id,)
     ).fetchall()
-    return render_template("index.html", data=fetch_data)
+
+    for row in fetch_data:
+        found_list.append({
+            'id': row[0],
+            'title': row[1],
+            'completed': row[2],
+            'url': row[3]
+        })
+        return json.dumps(found_list,ensure_ascii=False)
+
