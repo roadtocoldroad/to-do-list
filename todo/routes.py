@@ -1,4 +1,6 @@
-from flask import  request, redirect, url_for
+import json
+
+from flask import  request, redirect, url_for , jsonify
 from flask.blueprints import Blueprint
 from flask import render_template
 from todo.db import get_db
@@ -7,9 +9,21 @@ bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.route('/',methods = ['GET'])
 def read():
+    todo_list = []
     db = get_db()
     fetch_data = db.execute("select * from todo").fetchall()
-    return render_template("index.html", data=fetch_data)
+
+    for row in fetch_data:
+         todo_list.append({
+            'id' : row[0],
+            'title' : row[1],
+            'completed': row[2],
+            'url': row[3]
+          })
+
+    return json.dumps(todo_list,ensure_ascii=False)
+
+
 
 
 @bp.route('/',methods = ['POST'])
