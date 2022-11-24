@@ -27,6 +27,6 @@ def post():
 def find_todo_by_id(todo_id):
     db = get_db()
     fetch_data = db.execute(
-        "select * from todo where todo_id=?", todo_id
+        "select * from todo where todo_id = ?", (todo_id,)
     ).fetchall()
     return render_template("index.html", data=fetch_data)
