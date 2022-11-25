@@ -26,17 +26,17 @@ def read():
 @bp.route('/',methods = ['POST'])
 def post():
     params = request.get_json()
-
     db = get_db()
-    db.execute("insert into todo(TITLE,URL) values (?,?)", (params['title'], request.url))
+    cursor = db.cursor()
+    cursor.execute("insert into todo(TITLE,URL) values (?,?)", (params['title'], request.url))
     db.commit()
-    return find_todo_by_id(db.cursor().lastrowid)
+    post_id = cursor.lastrowid
+    return find_todo_by_id(post_id)
 
 
 @bp.route('/<string:todo_id>')
 def find_todo_by_id(todo_id):
     found_list = []
-
     db = get_db()
     fetch_data = db.execute(
         "select * from todo where todo_id = ?", (todo_id,)
