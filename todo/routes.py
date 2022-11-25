@@ -1,8 +1,7 @@
 import json
 
-from flask import  request, redirect, url_for , jsonify
+from flask import  request
 from flask.blueprints import Blueprint
-from flask import render_template
 from todo.db import get_db
 
 bp = Blueprint('main', __name__, url_prefix='/')
@@ -15,10 +14,10 @@ def read():
 
     for row in fetch_data:
          todo_list.append({
-            'id' : row[0],
-            'title' : row[1],
-            'completed': row[2],
-            'url': row[3]
+            'id' : row['todo_id'],
+            'title' : row['title'],
+            'completed': row['completed'],
+            'url': row['url']
           })
 
     return json.dumps(todo_list,ensure_ascii=False)
@@ -26,13 +25,12 @@ def read():
 
 @bp.route('/',methods = ['POST'])
 def post():
+    params = request.get_json()
+
     db = get_db()
-    db.execute(
-        "insert into todo(TITLE,URL) values (?,?)",
-        (request.form['title'], request.url)
-    )
+    db.execute("insert into todo(TITLE,URL) values (?,?)", (params['title'], request.url))
     db.commit()
-    return redirect(url_for("main.post"))
+    return find_todo_by_id(db.cursor().lastrowid)
 
 
 @bp.route('/<string:todo_id>')
@@ -46,10 +44,10 @@ def find_todo_by_id(todo_id):
 
     for row in fetch_data:
         found_list.append({
-            'id': row[0],
-            'title': row[1],
-            'completed': row[2],
-            'url': row[3]
+            'id': row['todo_id'],
+            'title': row['title'],
+            'completed': row['completed'],
+            'url': row['url']
         })
         return json.dumps(found_list,ensure_ascii=False)
 
