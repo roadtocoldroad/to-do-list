@@ -13,11 +13,12 @@ def read():
     fetch_data = db.execute("select * from todo").fetchall()
 
     for row in fetch_data:
-         todo_list.append({
-            'id' : row['todo_id'],
+        todo_id = row['todo_id']
+        todo_list.append({
+            'id' : todo_id,
             'title' : row['title'],
             'completed': row['completed'],
-            'url': row['url']
+            'url': row['url'] + str(todo_id)
           })
 
     return json.dumps(todo_list,ensure_ascii=False)
@@ -47,7 +48,7 @@ def find_todo_by_id(todo_id):
             'id': row['todo_id'],
             'title': row['title'],
             'completed': row['completed'],
-            'url': row['url']
+            'url': row['url'] + str(todo_id)
         })
         return json.dumps(found_list,ensure_ascii=False)
 
