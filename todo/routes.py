@@ -4,13 +4,13 @@ from flask import  request
 from flask.blueprints import Blueprint
 from todo.db import get_db
 
-bp = Blueprint('main', __name__, url_prefix='/')
+bp = Blueprint('main', __name__,url_prefix='/')
 
 @bp.route('/',methods = ['GET'])
 def read():
     todo_list = []
     db = get_db()
-    fetch_data = db.execute("select * from todo").fetchall()
+    fetch_data = db.execute("SELECT * FROM todo").fetchall()
 
     for row in fetch_data:
         todo_id = row['todo_id']
@@ -29,7 +29,7 @@ def post():
     params = request.get_json()
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("insert into todo(TITLE,URL) values (?,?)", (params['title'], request.url))
+    cursor.execute("INSERT INTO todo(TITLE,URL) VALUES (?,?)", (params['title'], request.url))
     db.commit()
     post_id = cursor.lastrowid
     return find_todo_by_id(post_id)
@@ -40,7 +40,7 @@ def find_todo_by_id(todo_id):
     found_list = []
     db = get_db()
     fetch_data = db.execute(
-        "select * from todo where todo_id = ?", (todo_id,)
+        "SELECT * FROM todo WHERE todo_id = ?", (todo_id,)
     ).fetchall()
 
     for row in fetch_data:
