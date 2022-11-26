@@ -50,5 +50,4 @@ def find_todo_by_id(todo_id):
             'completed': row['completed'],
             'url': row['url'] + str(todo_id)
         })
-        return json.dumps(found_list,ensure_ascii=False)
-
+    return json.dumps(found_list,ensure_ascii=False)
