@@ -35,7 +35,7 @@ def post():
     return find_todo_by_id(post_id)
 
 
-@bp.route('/<string:todo_id>')
+@bp.route('/<string:todo_id>',methods = ['GET'])
 def find_todo_by_id(todo_id):
     found_list = []
     db = get_db()
