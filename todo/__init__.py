@@ -11,5 +11,5 @@ def create_app():
     app.config['DATABASE'] = 'todo/database.db'
 
     db.init_app(app)
-    app.register_blueprint(bp)
+    app.register_blueprint(bp,url_prefix='/')
     return app

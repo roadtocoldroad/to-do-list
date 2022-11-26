@@ -4,7 +4,7 @@ from flask import  request
 from flask.blueprints import Blueprint
 from todo.db import get_db
 
-bp = Blueprint('main', __name__,url_prefix='/')
+bp = Blueprint('main', __name__)
 
 @bp.route('/',methods = ['GET'])
 def read():
