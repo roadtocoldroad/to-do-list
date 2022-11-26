@@ -18,7 +18,7 @@ def read():
             'id' : todo_id,
             'title' : row['title'],
             'completed': row['completed'],
-            'url': row['url'] + str(todo_id)
+            'url': request.url + str(todo_id)
           })
 
     return json.dumps(todo_list,ensure_ascii=False)
@@ -29,7 +29,7 @@ def post():
     params = request.get_json()
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO todo(TITLE,URL) VALUES (?,?)", (params['title'], request.url))
+    cursor.execute("INSERT INTO todo(TITLE) VALUES (?)", (params['title'],))
     db.commit()
     post_id = cursor.lastrowid
     return find_todo_by_id(post_id)
@@ -48,6 +48,6 @@ def find_todo_by_id(todo_id):
             'id': row['todo_id'],
             'title': row['title'],
             'completed': row['completed'],
-            'url': row['url'] + str(todo_id)
+            'url': request.url
         })
     return json.dumps(found_list,ensure_ascii=False)
